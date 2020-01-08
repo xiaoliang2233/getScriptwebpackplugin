@@ -1,5 +1,5 @@
 {
-  "name": "@era/getscriptwebpackplugin",
+  "name": "getScriptwebpackplugin",
   "version": "0.0.1",
   "description": "获取编译后的脚本信息",
   "main": "index.js",
