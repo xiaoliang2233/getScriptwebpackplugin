@@ -1,8 +1,10 @@
 const path = require('path')
 module.exports = class GetScriptWebpackPlugin {
-    constructor(options = {}) {
+    constructor(options = {}, callback = () => {}) {
         this.filename = options.name ? options.name : 'files.json'
         this.state = {}
+        this.options = {}
+        this.afterAssetsGenerater = callback
     }
 
     /**
@@ -98,6 +100,7 @@ module.exports = class GetScriptWebpackPlugin {
             try {
                 const entryNames = Array.from(compilation.entrypoints.keys())
                 this.state = this.getAssets(compilation, entryNames)
+                Object.assign(this.state, this.options)
                 const content = JSON.stringify(this.state, null, 2)
                 compilation.assets[this.filename] = {
                     source: () => content,
