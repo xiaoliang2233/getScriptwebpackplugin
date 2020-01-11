@@ -1,9 +1,9 @@
 const path = require('path')
 module.exports = class GetScriptWebpackPlugin {
-    constructor(options = {}, callback = () => {}) {
+    constructor(options = {}, callback = async () => {}) {
         this.filename = options.filename ? options.filename : 'files.json'
         this.state = {}
-        this.options = {}
+        this.options = options
         this.afterAssetsGenerater = callback
     }
 
@@ -96,7 +96,7 @@ module.exports = class GetScriptWebpackPlugin {
     }
 
     apply(compiler) {
-        compiler.hooks.emit.tap('getScriptWebpackPlugin', (compilation) => {
+        compiler.hooks.emit.tapAsync('getScriptWebpackPlugin', async (compilation, callback) => {
             try {
                 const entryNames = Array.from(compilation.entrypoints.keys())
                 this.state = this.getAssets(compilation, entryNames)
@@ -106,7 +106,8 @@ module.exports = class GetScriptWebpackPlugin {
                     source: () => content,
                     size: () => content.length
                 }
-                this.afterAssetsGenerater(this.state)
+                await this.afterAssetsGenerater(this.state)
+                callback()
             } catch (e) {
                 console.log(e);
             }
