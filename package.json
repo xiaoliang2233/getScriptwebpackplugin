@@ -1,6 +1,6 @@
 {
   "name": "get-script-webpack-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "获取编译后的脚本信息",
   "main": "index.js",
   "scripts": {

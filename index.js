@@ -1,7 +1,7 @@
 const path = require('path')
 module.exports = class GetScriptWebpackPlugin {
     constructor(options = {}, callback = () => {}) {
-        this.filename = options.name ? options.name : 'files.json'
+        this.filename = options.filename ? options.filename : 'files.json'
         this.state = {}
         this.options = {}
         this.afterAssetsGenerater = callback
@@ -106,6 +106,7 @@ module.exports = class GetScriptWebpackPlugin {
                     source: () => content,
                     size: () => content.length
                 }
+                this.afterAssetsGenerater(this.state)
             } catch (e) {
                 console.log(e);
             }
